@@ -9,7 +9,7 @@ public class Main {
         for(int i=0; i<T; i++) {
             int time1 = sc.nextInt();
             int time2 = sc.nextInt();
-            if(time1 < time2)
+            if(time1 <= time2)
                 if(fast_time > time2) fast_time = time2;
         }
         if(fast_time == 1001) System.out.println(-1);

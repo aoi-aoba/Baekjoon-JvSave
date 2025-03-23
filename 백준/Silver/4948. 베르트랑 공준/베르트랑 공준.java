@@ -5,7 +5,7 @@ public class Main {
     public static int[] primeSieve(int n) {
         int[] arr = new int[2 * n + 1];
         for (int i = 2; i <= 2 * n; i++) arr[i] = i;
-        for (int i = 2; i <= 2 * n; i++) {
+        for (int i = 2; i <= Math.sqrt(n * 2) + 1; i++) {
             if (arr[i] == 0) continue;
             for (int j = 2 * i; j <= 2 * n; j += i) arr[j] = 0;
         }

@@ -1,17 +1,16 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
-        Queue<Integer> queue = new ArrayDeque<>();
-        int N = Integer.parseInt(br.readLine()), lastPushedInteger = 0;
+        int N = Integer.parseInt(br.readLine());
+        int[] queue = new int[N];
+        int front = 0, tail = -1, numItems = 0;
 
         for (int i = 0; i < N; i++) {
             String operation = br.readLine();
@@ -19,30 +18,33 @@ public class Main {
                 case 'u': // push
                     st = new StringTokenizer(operation);
                     st.nextToken();
-                    int numItem = Integer.parseInt(st.nextToken());
-                    queue.add(numItem);
-                    lastPushedInteger = numItem;
+                    queue[++tail] = Integer.parseInt(st.nextToken());
+                    ++numItems;
                     break;
                 case 'o': // pop
-                    if (queue.isEmpty()) sb.append(-1).append("\n");
-                    else sb.append(queue.remove()).append("\n");
+                    if(numItems == 0) sb.append(-1).append("\n");
+                    else {
+                        sb.append(queue[front++]).append("\n");
+                        --numItems;
+                    }
                     break;
                 case 'i': // size
-                    sb.append(queue.size()).append("\n");
+                    sb.append(numItems).append("\n");
                     break;
                 case 'm': // empty
-                    sb.append(queue.isEmpty() ? 1 : 0).append("\n");
+                    sb.append(numItems == 0 ? 1 : 0).append("\n");
                     break;
                 case 'r': // front
-                    if (queue.isEmpty()) sb.append(-1).append("\n");
-                    else sb.append(queue.peek()).append("\n");
+                    if(numItems == 0) sb.append(-1).append("\n");
+                    else sb.append(queue[front]).append("\n");
                     break;
                 case 'a': // back
-                    if (queue.isEmpty()) sb.append(-1).append("\n");
-                    else sb.append(lastPushedInteger).append("\n");
+                    if(numItems == 0) sb.append(-1).append("\n");
+                    else sb.append(queue[tail]).append("\n");
+                    break;
             }
         }
-        System.out.println(sb);
+        System.out.print(sb);
         br.close();
     }
 }

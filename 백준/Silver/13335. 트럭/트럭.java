@@ -10,30 +10,22 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken()), W = Integer.parseInt(st.nextToken()),
-                L = Integer.parseInt(st.nextToken()), nowWeight = 0, time = 0;
+                L = Integer.parseInt(st.nextToken()), nowWeight = 0, time = 0, truck_num = 0;
 
-        Queue<Integer> queue = new LinkedList<>();
-        Queue<int[]> bridge = new LinkedList<>();
+        int[] trucks = new int[N];
         st = new StringTokenizer(br.readLine());
-        for(int i=1; i<=N; i++) queue.add(Integer.parseInt(st.nextToken()));
-        boolean isFullOfMaxCar = false;
+        for(int i=0; i<N; i++) trucks[i] = Integer.parseInt(st.nextToken());
 
-        while(!(queue.isEmpty() && bridge.isEmpty())) {
-            if (!bridge.isEmpty()) {
-                bridge.forEach(car -> car[1]++);
-                while (bridge.peek() != null) {
-                    if (bridge.peek()[1] == W) nowWeight -= bridge.remove()[0];
-                    else break;
-                }
-            }
-            if (!queue.isEmpty()) {
-                if (queue.peek() + nowWeight <= L) {
-                    int[] car = {queue.remove(), 0};
-                    nowWeight += car[0];
-                    bridge.add(car);
-                }
-            }
-            time += 1;
+        Queue<Integer> bridge = new LinkedList<>();
+        for(int i = 0; i < W; i++) bridge.add(0);
+
+        while(!bridge.isEmpty()){
+            time++;
+            nowWeight -= bridge.poll();
+            if(truck_num == N) continue;
+            int next = (nowWeight + trucks[truck_num] > L) ? 0 : trucks[truck_num++];
+            bridge.offer(next);
+            nowWeight += next;
         }
 
         System.out.println(time);

@@ -1,39 +1,38 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken()), K = Integer.parseInt(st.nextToken()), cnt = 0;
-        Stack<Integer>[] stacks = new Stack[N];
-        Arrays.fill(stacks, null);
-        for(int i=0; i<N; i++) {
-            st = new StringTokenizer(br.readLine());
-            int line = Integer.parseInt(st.nextToken()) - 1, fret = Integer.parseInt(st.nextToken());
-            if(stacks[line] == null) {
-                Stack<Integer> stack = new Stack<>();
-                stack.push(fret);
-                stacks[line] = stack;
-                cnt++;
-            } else if(stacks[line].get(0) > fret) {
-                cnt += stacks[line].size() + 1;
-                stacks[line].clear();
-                stacks[line].push(fret);
-            } else {
-                while(stacks[line].peek() > fret) {
-                    stacks[line].pop();
-                    cnt++;
-                }
-                if(stacks[line].peek() < fret) {
-                    stacks[line].push(fret);
-                    cnt++;
-                }
-            }
+public class Main{
+    public static void main(String[] args)throws IOException{
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st=new StringTokenizer(br.readLine());
+        
+        int N=Integer.parseInt(st.nextToken());
+        int P=Integer.parseInt(st.nextToken());
+        int min=0;
+        
+        Stack<Integer>[] stacks=new Stack[P+1];
+        for(int i=1; i<=P;i++){
+            stacks[i]=new Stack<>();
         }
-        System.out.println(cnt);
-        br.close();
+        
+        for(int i=0;i<N;i++){
+            st = new StringTokenizer(br.readLine());
+            int num=Integer.parseInt(st.nextToken());
+            int fret=Integer.parseInt(st.nextToken());
+            
+            Stack<Integer> stack=stacks[num];
+            
+            while(!stack.isEmpty()&&stack.peek()>fret){
+                stack.pop();
+                min++;
+            }
+            
+            if(!stack.isEmpty()&&stack.peek()==fret){
+                continue;
+            }
+            stack.push(fret);
+            min++;
+        }
+        System.out.print(min);
     }
 }

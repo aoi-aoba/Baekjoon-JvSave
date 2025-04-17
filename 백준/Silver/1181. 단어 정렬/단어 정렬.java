@@ -18,14 +18,16 @@ public class Main {
                 else return o1.compareTo(o2);
             }
         });
+        
         String prev = "";
-        for (int i = 0; i < N; i++) {
-            if(arr[i].equals(prev)) continue;
-            else {
-                sb.append(arr[i]).append((i != N-1) ? "\n" : "");
-                prev = arr[i];
+        sb.append(arr[0]).append("\n");
+
+        for (int i = 1; i < N; i++) {
+            if (!arr[i].equals(arr[i - 1])) {
+                sb.append(arr[i]).append("\n");
             }
         }
-        System.out.print(sb);
+        System.out.println(sb);
+        br.close();
     }
 }

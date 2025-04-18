@@ -14,7 +14,6 @@ public class Main {
         return (avgInDouble < 0) ? (int)(avgInDouble-0.5) : (int)(avgInDouble+0.5);
     }
     public static int mid(int[] arr) {
-        Arrays.sort(arr);
         return arr[arr.length/2];
     }
     public static int freq(int[] arr) {
@@ -31,7 +30,6 @@ public class Main {
         return list.get(0);
     }
     public static int range(int[] arr) {
-        Arrays.sort(arr);
         return arr[arr.length-1] - arr[0];
     }
     public static void main(String[] args) throws IOException {

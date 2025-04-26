@@ -7,21 +7,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        Set<String> hashSet = new HashSet<>();
+        Set<String> treeSet = new TreeSet<>(Comparator.reverseOrder());
         while (N-- > 0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             String name = st.nextToken(), status = st.nextToken();
-            if (!hashSet.contains(name) && status.charAt(0) == 'e') hashSet.add(name);
-            else if (status.charAt(0) == 'l') hashSet.remove(name);
+            if (!treeSet.contains(name) && status.charAt(0) == 'e') treeSet.add(name);
+            else if (status.charAt(0) == 'l') treeSet.remove(name);
         }
-        List<String> list = new ArrayList<>(hashSet);
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s2.compareTo(s1);
-            }
-        });
-        for (String str : list) System.out.println(str);
+        for (String str : treeSet) System.out.println(str);
         br.close();
     }
 }

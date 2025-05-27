@@ -2,32 +2,33 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static int N, result = 0;
-    public static int[][] timePayTable;
-    public static void tracker(int nowWatching, int nowPay) {
-        if (nowWatching == N) {
-            result = Math.max(result, nowPay);
-            return;
-        } else for (int i = nowWatching; i < N; i++) {
-            if (i + timePayTable[i][0] <= N)
-                tracker(i + timePayTable[i][0], nowPay + timePayTable[i][1]);
-            else tracker(i+1, nowPay);
+    public static int[][] dpTable;
+    public static int[] resultTable;
+    public static int dp(int N) {
+        int result = 0;
+        resultTable = new int[N+1];
+        for (int i = 0; i < N; i++) {
+            if (i != 0) resultTable[i] = Math.max(resultTable[i], resultTable[i-1]);
+            if (i + dpTable[i][0] <= N) {
+                resultTable[i + dpTable[i][0]] = Math.max(resultTable[i + dpTable[i][0]], resultTable[i] + dpTable[i][1]);
+                result = Math.max(resultTable[i + dpTable[i][0]], result);
+            }
         }
+        return result;
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        timePayTable = new int[N][2];
+        int N = Integer.parseInt(st.nextToken());
+        dpTable = new int[N][2];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            timePayTable[i][0] = Integer.parseInt(st.nextToken()); // time
-            timePayTable[i][1] = Integer.parseInt(st.nextToken()); // pay
+            dpTable[i][0] = Integer.parseInt(st.nextToken()); // time
+            dpTable[i][1] = Integer.parseInt(st.nextToken()); // pay
         }
 
-        tracker(0, 0);
-        System.out.print(result);
+        System.out.print(dp(N));
         br.close();
     }
 }

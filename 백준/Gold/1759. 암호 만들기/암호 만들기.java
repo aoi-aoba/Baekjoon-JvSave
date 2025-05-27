@@ -5,11 +5,11 @@ public class Main {
     public static char[] chars;
     public static int L, C;
     public static StringBuilder result = new StringBuilder();
-    public static final Set<Character> vowelSet = Set.of('a', 'e', 'i', 'o', 'u');
     public static void checkPrinting(String target) {
+        char[] targetArr = target.toCharArray();
         int vowels = 0, consonants = 0;
-        for (char ch : target.toCharArray()) {
-            if (vowelSet.contains(ch)) vowels++;
+        for (char ch : targetArr) {
+            if (ch == 'a' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'e') vowels++;
             else consonants++;
         }
         if (vowels >= 1 && consonants >= 2) result.append(target).append("\n");

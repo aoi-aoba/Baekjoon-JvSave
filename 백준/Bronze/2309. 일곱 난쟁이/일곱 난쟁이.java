@@ -2,27 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void swap(int[] data, int pl, int pr) {
-        int temp = data[pl];
-        data[pl] = data[pr];
-        data[pr] = temp;
-    }
-
-    public static void quickSort(int[] data, int left, int right) {
-        int pl = left;
-        int pr = right;
-        int pivot = data[(pl + pr) / 2];
-
-        do {
-            while (data[pl] < pivot) pl++;
-            while (data[pr] > pivot) pr--;
-            if(pl <= pr) swap(data, pl++, pr--);
-        } while (pl <= pr);
-
-        if(left < pr) quickSort(data, left, pr);
-        if(pl < right) quickSort(data, pl, right);
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int[] arr = new int[9];
@@ -39,7 +18,7 @@ public class Main {
                 if(sum - arr[i] - arr[j] == 100) {
                     arr[i] = 0;
                     arr[j] = 0;
-                    quickSort(arr, 0, arr.length-1);
+                    Arrays.sort(arr);
                     for(int k=2; k<9; k++)
                         System.out.println(arr[k]);
                     return;

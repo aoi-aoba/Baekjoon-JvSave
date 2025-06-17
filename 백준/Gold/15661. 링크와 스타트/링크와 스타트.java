@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         N = Integer.parseInt(br.readLine());
         inputConverter();
-        tracker(0);
+        tracker(0, 0);
         System.out.println(result);
     }
 
@@ -26,7 +26,8 @@ public class Main {
         }
     }
 
-    public static void tracker(int selectedNum) {
+    public static void tracker(int selectedNum, int startTeamNum) {
+        if (selectedNum > N / 2 && startTeamNum < 2) return;
         if (selectedNum == N) {
             int startSum = 0, linkSum = 0;
             for (int i = 0; i < N; i++)
@@ -39,8 +40,8 @@ public class Main {
             return;
         }
         teamTable[selectedNum] = 's';
-        tracker(selectedNum + 1);
+        tracker(selectedNum + 1, startTeamNum + 1);
         teamTable[selectedNum] = 'l';
-        tracker(selectedNum + 1);
+        tracker(selectedNum + 1, startTeamNum);
     }
 }

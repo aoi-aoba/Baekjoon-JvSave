@@ -12,6 +12,7 @@ public class Main {
     public static void initArrays(int input) {
         N = input;
         list = new int[N];
+        for (int i = 0; i < N; i++) list[i] = i;
         visited = new boolean[N];
         costTable = new int[N][N];
     }
@@ -26,21 +27,25 @@ public class Main {
         return costSum;
     }
 
-    public static void tracker(int depth) {
-        if (depth == N) {
-            int temp = checkCost();
-            result = (temp != -1) ? Math.min(temp, result) : result;
-            return;
+    public static void swap(int a, int b) {
+        int temp = list[a];
+        list[a] = list[b];
+        list[b] = temp;
+    }
+
+    public static boolean nextPermutation() {
+        int befIdx = N - 1, aftIdx = N - 1;
+        while (befIdx > 0 && list[befIdx-1] > list[befIdx]) befIdx--;
+        if (befIdx <= 0) return false;
+        while (list[aftIdx] <= list[befIdx - 1]) aftIdx--;
+        swap(befIdx - 1, aftIdx);
+        aftIdx = N - 1;
+        while (befIdx < aftIdx) {
+            swap(befIdx, aftIdx);
+            befIdx++;
+            aftIdx--;
         }
-        for (int i = 0; i < N; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                list[depth] = i;
-                tracker(depth + 1);
-                list[depth] = 0;
-                visited[i] = false;
-            }
-        }
+        return true;
     }
 
     public static void main(String[] args) throws IOException {
@@ -54,7 +59,12 @@ public class Main {
                 costTable[i][j] = Integer.parseInt(st.nextToken());
         }
 
-        tracker(0);
+        boolean end = false;
+        while (!end) {
+            end = !nextPermutation();
+            int temp = checkCost();
+            result = (temp != -1) ? Math.min(temp, result) : result;
+        }
         System.out.println(result);
     }
 }

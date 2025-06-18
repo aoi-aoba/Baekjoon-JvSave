@@ -12,30 +12,31 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             String op = st.nextToken();
             int temp;
-            switch (op) {
-                case "add" :
-                    temp = Integer.parseInt(st.nextToken()) - 1;
-                    arrayForBit = arrayForBit | (1 << temp);
-                    // 1 << temp는 temp번 비트만 1, 그 외는 0으로 만들기 때문에 |로 or 연산을 통해 반영해주면 됨
+            switch (op.charAt(0)) {
+                case 'a' :
+                    if (op.charAt(1) == 'd') {
+                        temp = Integer.parseInt(st.nextToken()) - 1;
+                        arrayForBit = arrayForBit | (1 << temp);
+                        // 1 << temp는 temp번 비트만 1, 그 외는 0으로 만들기 때문에 |로 or 연산을 통해 반영해주면 됨
+                    } else {
+                        arrayForBit = (1 << 20) - 1;
+                    }
                     break;
-                case "remove" :
+                case 'r' :
                     temp = Integer.parseInt(st.nextToken()) - 1;
                     arrayForBit = arrayForBit & ~(1 << temp);
                     // 1 << temp로 temp번 비트만 1로 만든 상태를 ~로 뒤집으면 지워야 하는 비트만 0이 되어 &로 변경 가능
                     break;
-                case "check" :
+                case 'c' :
                     temp = Integer.parseInt(st.nextToken()) - 1;
                     result.append((arrayForBit & (1 << temp)) == (1 << temp) ? 1 : 0).append("\n");
                     break;
-                case "toggle" :
+                case 't' :
                     temp = Integer.parseInt(st.nextToken()) - 1;
                     arrayForBit = arrayForBit ^ (1 << temp);
                     // 1 << temp는 temp번 비트만 1, 그 외는 0으로 만들기 때문에 |로 xor 연산을 통해 조건부 반영해주면 됨
                     break;
-                case "all" :
-                    arrayForBit = (1 << 20) - 1;
-                    break;
-                case "empty" :
+                case 'e' :
                     arrayForBit = 0;
                     break;
             }

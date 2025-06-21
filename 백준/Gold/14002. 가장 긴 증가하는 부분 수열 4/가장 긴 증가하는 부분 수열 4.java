@@ -2,54 +2,57 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static int[] dp, prev, input;
-    public static StringBuilder result = new StringBuilder();
-    public static int N, len, maxDp;
+    static int[] dp, prev, input;
+    static int N, lisLength = 0, lisEndIndex = 0;
+    static StringBuilder result = new StringBuilder();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         N = Integer.parseInt(br.readLine());
-        init();
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) input[i] = Integer.parseInt(st.nextToken());
-        lis();
-        result.append(len).append("\n");
-        track();
-        System.out.print(result);
-    }
-    public static void init() {
         input = new int[N];
         dp = new int[N];
         prev = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            input[i] = Integer.parseInt(st.nextToken());
+        }
+
+        computeLIS();
+        result.append(lisLength).append("\n");
+        traceLIS();
+        System.out.print(result);
     }
-    public static void lis() {
-        dp[0] = 1;
-        prev[0] = -1;
-        len = 1;
-        maxDp = 0;
-        for (int i = 1; i < N; i++) {
-            dp[i] = 1;
-            prev[i] = -1;
+
+    static void computeLIS() {
+        Arrays.fill(dp, 1);      // LIS 길이 초기값: 자기 자신만 포함할 경우 1
+        Arrays.fill(prev, -1);   // 이전 인덱스 초기값: -1 (연결 없음)
+
+        for (int i = 0; i < N; i++) {
             for (int j = 0; j < i; j++) {
-                if (input[j] < input[i]) {
-                    if (dp[j] + 1 > dp[i]) {
-                        dp[i] = dp[j] + 1;
-                        prev[i] = j;
-                        if (dp[i] > dp[maxDp]) maxDp = i;
-                    }
-                    len = Math.max(len, dp[i]);
+                if (input[j] < input[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
                 }
+            }
+
+            if (dp[i] > lisLength) {
+                lisLength = dp[i];
+                lisEndIndex = i;
             }
         }
     }
-    public static void track() {
-        int[] arr = new int[N];
-        int trackIdx = maxDp, length = 0;
-        while (trackIdx != -1) {
-            arr[length++] = input[trackIdx];
-            trackIdx = prev[trackIdx];
+
+    static void traceLIS() {
+        List<Integer> sequence = new ArrayList<>();
+        for (int i = lisEndIndex; i != -1; i = prev[i]) {
+            sequence.add(input[i]);
         }
-        for (int i = length - 1; i >= 0; i--) {
-            result.append(arr[i]).append(" ");
+
+        Collections.reverse(sequence);
+        for (int num : sequence) {
+            result.append(num).append(" ");
         }
     }
 }

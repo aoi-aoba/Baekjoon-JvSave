@@ -1,2 +1,3 @@
 # Baekjoon-Save
-This is an auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+백준허브 익스텐션으로 자동으로 문제 풀이가 업로드되게 연동한 백준 문제풀이 모음집
+Java 8 및 Java 언어로 푼 문제들 (Bronze 제외 문제들은 아이디어 마크다운 문서 포함)

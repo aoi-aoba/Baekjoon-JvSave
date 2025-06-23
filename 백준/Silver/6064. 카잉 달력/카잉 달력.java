@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static int gcd(int a, int b) {
@@ -20,19 +18,13 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int M = Integer.parseInt(st.nextToken()), N = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken()), y = Integer.parseInt(st.nextToken());
-            int xNow = 0, yNow = 0, lcm = M * N / gcd(M, N);
-            while (xNow <= lcm && yNow <= lcm) {
-                if (xNow == yNow && xNow == 0) {
-                    xNow += x;
-                    yNow += y;
-                }
-                if (xNow < yNow) xNow += M;
-                else if (xNow > yNow) yNow += N;
-                else break;
+            int k = x, lcm = M * N / gcd(M, N);
+            while (k <= lcm) {
+                if ((k - 1) % N + 1 == y) break;
+                k += M;
             }
-            if (xNow == yNow) sb.append(xNow).append("\n");
-            else sb.append("-1\n");
+            if (k > lcm) System.out.println(-1);
+            else System.out.println(k);
         }
-        System.out.print(sb);
     }
 }

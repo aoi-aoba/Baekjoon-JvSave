@@ -2,78 +2,36 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static int[] arabStd = new int[]{1, 5, 10, 50, 100, 500, 1000};
-    public static char[] romeStd = new char[]{'I', 'V', 'X', 'L', 'C', 'D', 'M'};
     public static int convertRomeToArab(String romeNum) {
-        int result = 0;
-        int[] arabArr = new int[romeNum.length()];
-        for (int i = 0; i < romeNum.length(); i++) {
-            for (int j = 0; j < romeStd.length; j++) {
-                if (romeNum.charAt(i) == romeStd[j]) {
-                    arabArr[i] = arabStd[j];
-                    break;
-                }
-            }
-        }
-        for (int i = 0; i < arabArr.length; i++) {
-            if (i == arabArr.length - 1) result += arabArr[i];
-            else if (arabArr[i] >= arabArr[i + 1]) result += arabArr[i];
+        Map<Character, Integer> romeMap = new HashMap<>();
+        romeMap.put('I', 1);
+        romeMap.put('V', 5);
+        romeMap.put('X', 10);
+        romeMap.put('L', 50);
+        romeMap.put('C', 100);
+        romeMap.put('D', 500);
+        romeMap.put('M', 1000);
+
+        int result = 0, prev = 0;
+        for (int i = romeNum.length() - 1; i >= 0; i--) {
+            int current = romeMap.get(romeNum.charAt(i));
+            if (current < prev) result -= current;
             else {
-                switch(arabArr[i + 1]) {
-                    case 5 -> result += 4;
-                    case 10 -> result += 9;
-                    case 50 -> result += 40;
-                    case 100 -> result += 90;
-                    case 500 -> result += 400;
-                    case 1000 -> result += 900;
-                }
-                i++;
+                result += current;
+                prev = current;
             }
         }
         return result;
     }
     public static String convertArabToRome(int arabNum) {
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
         StringBuilder result = new StringBuilder();
-        while (arabNum > 0) {
-            if (arabNum >= 1000) {
-                arabNum -= 1000;
-                result.append("M");
-            } else if (arabNum >= 900) {
-                arabNum -= 900;
-                result.append("CM");
-            } else if (arabNum >= 500) {
-                arabNum -= 500;
-                result.append("D");
-            } else if (arabNum >= 400) {
-                arabNum -= 400;
-                result.append("CD");
-            } else if (arabNum >= 100) {
-                arabNum -= 100;
-                result.append("C");
-            } else if (arabNum >= 90) {
-                arabNum -= 90;
-                result.append("XC");
-            } else if (arabNum >= 50) {
-                arabNum -= 50;
-                result.append("L");
-            } else if (arabNum >= 40) {
-                arabNum -= 40;
-                result.append("XL");
-            } else if (arabNum >= 10) {
-                arabNum -= 10;
-                result.append("X");
-            } else if (arabNum == 9) {
-                arabNum -= 9;
-                result.append("IX");
-            } else if (arabNum >= 5) {
-                arabNum -= 5;
-                result.append("V");
-            } else if (arabNum == 4) {
-                arabNum -= 4;
-                result.append("IV");
-            } else {
-                arabNum -= 1;
-                result.append("I");
+        for (int i = 0; i < values.length; i++) {
+            while (arabNum >= values[i]) {
+                arabNum -= values[i];
+                result.append(symbols[i]);
             }
         }
         return result.toString();

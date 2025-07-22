@@ -9,15 +9,18 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken()), K = Integer.parseInt(st.nextToken());
 
-        int[] partSum = new int[N + 1];
+        int[] arr = new int[N];
         st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < N; i++)
-            partSum[i + 1] = partSum[i] + Integer.parseInt(st.nextToken());
+        int sum = 0;
+        for (int i = 0; i < K; i++) sum += arr[i];
+        int result = sum;
 
-        int result = Integer.MIN_VALUE;
-        for (int i = K; i <= N; i++)
-            result = Math.max(partSum[i] - partSum[i - K], result);
+        for (int i = K; i < N; i++) {
+            sum += arr[i] - arr[i - K];
+            result = Math.max(result, sum);
+        }
 
         bw.write(String.valueOf(result));
         bw.flush();

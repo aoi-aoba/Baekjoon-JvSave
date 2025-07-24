@@ -11,32 +11,15 @@ public class Main {
             return;
         }
         for (int i = 0; i < 4; i++) {
+            int newValue = 0;
             if (yunsanja[i] != 0) {
-                if (i == 0) {
-                    value += numbers[depth + 1];
-                    yunsanja[i]--;
-                    tracker(depth + 1, value);
-                    yunsanja[i]++;
-                    value -= numbers[depth + 1];
-                } else if (i == 1) {
-                    value -= numbers[depth + 1];
-                    yunsanja[i]--;
-                    tracker(depth + 1, value);
-                    yunsanja[i]++;
-                    value += numbers[depth + 1];
-                } else if (i == 2) {
-                    value *= numbers[depth + 1];
-                    yunsanja[i]--;
-                    tracker(depth + 1, value);
-                    yunsanja[i]++;
-                    value /= numbers[depth + 1];
-                } else {
-                    value /= numbers[depth + 1];
-                    yunsanja[i]--;
-                    tracker(depth + 1, value);
-                    yunsanja[i]++;
-                    value *= numbers[depth + 1];
-                }
+                if (i == 0) newValue = value + numbers[depth + 1];
+                else if (i == 1) newValue = value - numbers[depth + 1];
+                else if (i == 2) newValue = value * numbers[depth + 1];
+                else newValue = value / numbers[depth + 1];
+                yunsanja[i]--;
+                tracker(depth + 1, newValue);
+                yunsanja[i]++;
             }
         }
     }

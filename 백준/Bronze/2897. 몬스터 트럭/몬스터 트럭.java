@@ -3,11 +3,14 @@ import java.util.*;
 
 public class Main {
     public static int checkType(char ch) {
-        return switch (ch) {
-            case '#' -> 0;
-            case 'X' -> 1;
-            default -> 2;
-        };
+        switch (ch) {
+            case '#':
+                return 0;
+            case 'X':
+                return 1;
+            default :
+                return 2;
+        }
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

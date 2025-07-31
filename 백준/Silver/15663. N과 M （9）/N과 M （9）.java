@@ -3,27 +3,27 @@ import java.util.*;
 
 public class Main {
     public static int N, M;
-    public static int[] numbers;
-    public static List<Integer> caselist = new ArrayList<>();
+    public static int[] arr, select;
+    public static boolean[] visited;
     public static List<String> result = new ArrayList<>();
+    public static StringBuilder out = new StringBuilder();
 
     public static void dfs(int depth) {
         if (depth == M) {
-            StringBuilder sb = new StringBuilder();
-            for (int temp : caselist)
-                sb.append(temp).append(" ");
-            if (!result.contains(sb.toString()))
-                result.add(sb.toString());
+            for (int temp : select)
+                out.append(temp).append(" ");
+            out.append("\n");
             return;
         }
+
+        int prev = 0;
         for (int i = 0; i < N; i++) {
-            if (numbers[i] != 0) {
-                int temp = numbers[i];
-                caselist.add(numbers[i]);
-                numbers[i] = 0;
+            if (!visited[i] && prev != arr[i]) {
+                select[depth] = arr[i];
+                prev = arr[i];
+                visited[i] = true;
                 dfs(depth + 1);
-                numbers[i] = temp;
-                caselist.remove(caselist.size() - 1);
+                visited[i] = false;
             }
         }
     }
@@ -31,21 +31,21 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder out = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
+        arr = new int[N];
+        select = new int[M];
+        visited = new boolean[N];
+
         st = new StringTokenizer(br.readLine());
-        numbers = new int[N];
         for (int i = 0; i < N; i++)
-            numbers[i] = Integer.parseInt(st.nextToken());
-        Arrays.sort(numbers);
+            arr[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(arr);
 
         dfs(0);
-        for (String str : result) out.append(str).append("\n");
-
         bw.write(out.toString());
         bw.flush();
     }

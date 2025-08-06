@@ -7,26 +7,30 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int N = Integer.parseInt(br.readLine());
-        Map<Long, Integer> hashMap = new HashMap<>();
+        long[] cards = new long[N];
 
-        for (int i = 0; i < N; i++) {
-            long target = Long.parseLong(br.readLine());
-            if (hashMap.containsKey(target))
-                hashMap.replace(target, hashMap.get(target) + 1);
-            else hashMap.put(target, 1);
-        }
+        for (int i = 0; i < N; i++)
+            cards[i] = Long.parseLong(br.readLine());
+        Arrays.sort(cards);
 
-        List<Long> keySet = new ArrayList<>(hashMap.keySet());
-        Collections.sort(keySet, new Comparator<Long>() {
-            @Override
-            public int compare(Long l1, Long l2) {
-                if (hashMap.get(l1).equals(hashMap.get(l2)))
-                    return Long.compare(l2, l1);
-                else return Integer.compare(hashMap.get(l1), hashMap.get(l2));
+        long cardNumMax = cards[0];
+        int cardCnt = 1, maxCnt = 0;
+
+        for (int i = 1; i < N; i++) {
+            if (cards[i - 1] == cards[i]) cardCnt++;
+            else {
+                if (maxCnt < cardCnt) {
+                    cardNumMax = cards[i - 1];
+                    maxCnt = cardCnt;
+                }
+                cardCnt = 1;
             }
-        });
+        }
+        
+        if (maxCnt < cardCnt)
+            cardNumMax = cards[N - 1];
 
-        bw.write(String.valueOf(keySet.get(keySet.size() - 1)));
+        bw.write(String.valueOf(cardNumMax));
         bw.flush();
     }
 }

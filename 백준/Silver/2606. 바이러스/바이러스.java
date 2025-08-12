@@ -2,47 +2,42 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int cnt, num, connections;
-    static boolean[] visited;
-    static List[] computers;
+    public static final List<List<Integer>> graph = new ArrayList<>();
+    public static boolean[] dfsVisited;
+    public static List<Integer> infected = new ArrayList<>();
 
-    public static void bfs(int start) {
-        Queue<Integer> queue = new LinkedList<Integer>();
-        queue.add(start);
+    public static void dfs(int startNode) {
+        if (dfsVisited[startNode]) return;
+        dfsVisited[startNode] = true;
+        infected.add(startNode);
 
-        while(!queue.isEmpty()) {
-            int now = queue.poll();
-            if(!visited[now]) {
-                cnt++;
-                visited[now] = true;
-                for(int i=0; i<computers[now].size(); i++) {
-                    queue.add((int)computers[now].get(i));
-                }
-            }
+        List<Integer> nodeGraph = graph.get(startNode);
+        for (int node : nodeGraph) {
+            if (dfsVisited[node]) continue;
+            dfs(node);
         }
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        num = Integer.parseInt(br.readLine());
-        connections = Integer.parseInt(br.readLine());
-        visited = new boolean[num + 1];
-        computers = new List[num + 1];
-        cnt = 0;
-        for(int i = 1; i < num + 1; i++) {
-            computers[i] = new ArrayList<Integer>();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int node = Integer.parseInt(br.readLine()), line = Integer.parseInt(br.readLine());
+        dfsVisited = new boolean[node + 1];
+
+        for (int i = 0; i <= node; i++) graph.add(new ArrayList<>());
+        for (int i = 0; i < line; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int node1 = Integer.parseInt(st.nextToken()), node2 = Integer.parseInt(st.nextToken());
+            graph.get(node1).add(node2);
+            graph.get(node2).add(node1);
         }
 
-        StringTokenizer st;
-        for(int i=0; i<connections; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            computers[a].add(b);
-            computers[b].add(a);
-        }
+        for (int i = 0; i <= node; i++)
+            Collections.sort(graph.get(i));
 
-        bfs(1);
-        System.out.println(cnt-1);
-        br.close();
+        dfs(1);
+        bw.write(String.valueOf(infected.size() - 1));
+        bw.flush();
     }
 }

@@ -4,18 +4,13 @@ import java.util.*;
 public class Main {
     public static final List<List<Integer>> graph = new ArrayList<>();
     public static boolean[] dfsVisited;
-    public static List<Integer> infected = new ArrayList<>();
+    public static int infectedCnt = 0;
 
     public static void dfs(int startNode) {
-        if (dfsVisited[startNode]) return;
         dfsVisited[startNode] = true;
-        infected.add(startNode);
-
-        List<Integer> nodeGraph = graph.get(startNode);
-        for (int node : nodeGraph) {
-            if (dfsVisited[node]) continue;
-            dfs(node);
-        }
+        infectedCnt++;
+        for (int node : graph.get(startNode))
+            if (!dfsVisited[node]) dfs(node);
     }
 
     public static void main(String[] args) throws IOException {
@@ -37,7 +32,7 @@ public class Main {
             Collections.sort(graph.get(i));
 
         dfs(1);
-        bw.write(String.valueOf(infected.size() - 1));
+        bw.write(String.valueOf(infectedCnt - 1));
         bw.flush();
     }
 }

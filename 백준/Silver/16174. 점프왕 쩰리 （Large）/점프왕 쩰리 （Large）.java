@@ -15,10 +15,10 @@ public class Main {
             int[] cur = Q.poll();
             int posX = cur[0], posY = cur[1], moveLen = map[posY][posX];
 
-            int[] dx = {-1 * moveLen, moveLen, 0, 0};
-            int[] dy = {0, 0, -1 * moveLen, moveLen};
+            int[] dx = {moveLen, 0};
+            int[] dy = {0, moveLen};
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 int nx = posX + dx[i], ny = posY + dy[i];
                 if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[ny][nx]) {
                     visited[ny][nx] = true;

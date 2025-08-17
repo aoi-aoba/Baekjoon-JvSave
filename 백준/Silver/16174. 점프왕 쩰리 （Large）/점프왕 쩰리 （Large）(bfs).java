@@ -6,7 +6,7 @@ public class Main {
     public static int[][] map;
     public static boolean[][] visited;
 
-    public static void dfs(int posX, int posY) {
+    public static void bfs(int posX, int posY) {
         int moveLen = map[posY][posX];
         int[] dx = {moveLen, 0};
         int[] dy = {0, moveLen};
@@ -16,7 +16,7 @@ public class Main {
             if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[ny][nx]) {
                 visited[ny][nx] = true;
                 if (nx == N - 1 && ny == N - 1) return;
-                dfs(nx, ny);
+                bfs(nx, ny);
             }
         }
     }
@@ -35,7 +35,8 @@ public class Main {
             }
         }
 
-        dfs(0, 0);
+        bfs(0, 0);
         System.out.println(visited[N-1][N-1] ? "HaruHaru" : "Hing");
     }
+
 }

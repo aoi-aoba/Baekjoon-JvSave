@@ -6,25 +6,17 @@ public class Main {
     public static int[][] map;
     public static boolean[][] visited;
 
-    public static void bfs() {
-        Queue<int[]> Q = new ArrayDeque<>();
-        Q.offer(new int[] {0, 0});
-        visited[0][0] = true;
+    public static void dfs(int posX, int posY) {
+        int moveLen = map[posY][posX];
+        int[] dx = {moveLen, 0};
+        int[] dy = {0, moveLen};
 
-        while (!Q.isEmpty()) {
-            int[] cur = Q.poll();
-            int posX = cur[0], posY = cur[1], moveLen = map[posY][posX];
-
-            int[] dx = {moveLen, 0};
-            int[] dy = {0, moveLen};
-
-            for (int i = 0; i < 2; i++) {
-                int nx = posX + dx[i], ny = posY + dy[i];
-                if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[ny][nx]) {
-                    visited[ny][nx] = true;
-                    if (nx == N - 1 && ny == N - 1) return;
-                    Q.offer(new int[] {nx, ny});
-                }
+        for (int i = 0; i < 2; i++) {
+            int nx = posX + dx[i], ny = posY + dy[i];
+            if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[ny][nx]) {
+                visited[ny][nx] = true;
+                if (nx == N - 1 && ny == N - 1) return;
+                dfs(nx, ny);
             }
         }
     }
@@ -43,7 +35,7 @@ public class Main {
             }
         }
 
-        bfs();
+        dfs(0, 0);
         System.out.println(visited[N-1][N-1] ? "HaruHaru" : "Hing");
     }
 }

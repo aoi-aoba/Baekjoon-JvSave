@@ -3,21 +3,19 @@ import java.util.*;
 
 public class Main {
     static int N, K;
-    static int[] weight, value;
-    static int[][] dpTable;
+    static int[] weight, value, dpTable;
 
     public static int knapsack() {
-        Arrays.fill(dpTable[0], 0);
-        for (int i = 1; i <= N; i++) {
-            for (int w = 0; w <= K; w++) {
+        for (int i = 1; i < N; i++) {
+            for (int w = K; w >= 1; w--) {
                 if (w < weight[i])
-                    dpTable[i][w] = dpTable[i - 1][w];
+                    dpTable[w] = Math.max(dpTable[w - 1], dpTable[w]);
                 else
-                    dpTable[i][w] = Math.max(dpTable[i - 1][w - weight[i]] + value[i], dpTable[i - 1][w]);
+                    dpTable[w] = Math.max(dpTable[w], dpTable[w - weight[i]] + value[i]);
             }
         }
 
-        return dpTable[N][K];
+        return (K - weight[N] >= 0) ? Math.max(dpTable[K], dpTable[K - weight[N]] + value[N]) : dpTable[K];
     }
 
     public static void main(String[] args) throws IOException {
@@ -26,7 +24,7 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-        dpTable = new int[N + 1][K + 1];
+        dpTable = new int[K + 1];
         weight = new int[N + 1];
         value = new int[N + 1];
 

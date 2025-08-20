@@ -6,16 +6,14 @@ public class Main {
     static int[] weight, value, dpTable;
 
     public static int knapsack() {
-        for (int i = 1; i < N; i++) {
+        for (int i = 1; i <= N; i++) {
             for (int w = K; w >= 1; w--) {
-                if (w < weight[i])
-                    dpTable[w] = Math.max(dpTable[w - 1], dpTable[w]);
-                else
+                if (w >= weight[i])
                     dpTable[w] = Math.max(dpTable[w], dpTable[w - weight[i]] + value[i]);
             }
         }
 
-        return (K - weight[N] >= 0) ? Math.max(dpTable[K], dpTable[K - weight[N]] + value[N]) : dpTable[K];
+        return dpTable[K];
     }
 
     public static void main(String[] args) throws IOException {

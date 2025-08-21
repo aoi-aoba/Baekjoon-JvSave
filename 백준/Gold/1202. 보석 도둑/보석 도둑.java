@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
     static int N, K;
-    static List<int[]> list;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -11,13 +10,10 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-        PriorityQueue<int[]> jewelAndBag = new PriorityQueue<>(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0] != o2[0])
-                    return o1[0] - o2[0];
-                else return o2[1] - o1[1];
-            }
+        PriorityQueue<int[]> jewelAndBag = new PriorityQueue<>((o1, o2) -> {
+            if (o1[0] != o2[0])
+                return o1[0] - o2[0];
+            else return o2[1] - o1[1];
         });
 
         for (int i = 0; i < N; i++) {

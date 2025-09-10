@@ -10,9 +10,14 @@ public class Main {
         for (int i = startI; i < endI; i++)
             for (int j = startJ; j < endJ; j++)
                 switch(data[i][j]) {
-                    case 0 -> zero++;
-                    case 1 -> one++;
-                    default -> minus++;
+                    case 0:
+                        zero++;
+                        break;
+                    case 1:
+                        one++;
+                        break;
+                    default:
+                        minus++;
                 }
 
         if (zero == 0 && one == 0) minusT++;
@@ -20,17 +25,10 @@ public class Main {
         else if (minus == 0 && zero == 0) oneT++;
         else {
             int lenI = (endI - startI) / 3, lenJ = (endJ - startJ) / 3;
-            nineDiv(startI, startI + lenI, startJ, startJ + lenJ);
-            nineDiv(startI, startI + lenI, startJ + lenJ, startJ + 2*lenJ);
-            nineDiv(startI, startI + lenI, startJ + 2*lenJ, endJ);
-
-            nineDiv(startI + lenI, startI + 2*lenI, startJ, startJ + lenJ);
-            nineDiv(startI + lenI, startI + 2*lenI, startJ + lenJ, startJ + 2*lenJ);
-            nineDiv(startI + lenI, startI + 2*lenI, startJ + 2*lenJ, endJ);
-
-            nineDiv(startI + 2*lenI, endI, startJ, startJ + lenJ);
-            nineDiv(startI + 2*lenI, endI, startJ + lenJ, startJ + 2*lenJ);
-            nineDiv(startI + 2*lenI, endI, startJ + 2*lenJ, endJ);
+            for (int di = 0; di < 3; di++)
+                for (int dj = 0; dj < 3; dj++)
+                    nineDiv(startI + di*lenI, startI + (di+1)*lenI,
+                            startJ + dj*lenJ, startJ + (dj+1)*lenJ);
         }
     }
 

@@ -9,20 +9,20 @@ public class Main {
 
     public static void topologySort() {
         ArrayList<Integer> result = new ArrayList<>();
-        TreeSet<Integer> treeSet = new TreeSet<>(Comparator.naturalOrder());
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.naturalOrder());
 
         for (int i = 1; i <= n; i++)
             if (indegree[i] == 0)
-                treeSet.add(i);
+                queue.add(i);
 
-        while (!treeSet.isEmpty()) {
-            int now = treeSet.pollFirst();
+        while (!queue.isEmpty()) {
+            int now = queue.poll();
             result.add(now);
 
             for (int v : graph.get(now)) {
                 indegree[v]--;
                 if (indegree[v] == 0)
-                    treeSet.add(v);
+                    queue.offer(v);
             }
         }
 

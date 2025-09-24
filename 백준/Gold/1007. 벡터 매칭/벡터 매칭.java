@@ -8,7 +8,6 @@ public class Main {
     public static ArrayList<int[]> points;
     public static void tracker(int depth, int xPSum, int yPsum, int lastIdx) {
         if (depth == N / 2) {
-            int v2xSum = xSum - xPSum, v2ySum = ySum - yPsum;
             long dx = 2L * xPSum - xSum, dy = 2L * yPsum - ySum;
             res = Math.min(res, Math.sqrt(dx * dx + dy * dy));
             return;

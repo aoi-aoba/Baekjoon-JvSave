@@ -2,30 +2,24 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static int MAX = 1_000_000_001;
-    public static int target, result = 0;
-    public static boolean[] visited = new boolean[MAX];
+    public static int target, result = -1;
 
     public static void bfs(int num) {
         Queue<int[]> Q = new ArrayDeque<>();
         Q.offer(new int[] {num, 1});
-        visited[num] = true;
 
         while (!Q.isEmpty()) {
             int[] cur = Q.poll();
             int curN = cur[0], depth = cur[1];
-            visited[curN] = true;
-            result = depth;
 
-            if (curN == target) break;
-            if (curN <= (MAX - 1) / 10) {
-                int newNum = curN * 10 + 1;
-                Q.offer(new int[]{newNum, depth + 1});
+            if (curN == target) {
+                result = depth;
+                return;
             }
-            if (curN <= (MAX / 2)) {
-                int newNum = curN * 2;
-                Q.offer(new int[]{newNum, depth + 1});
-            }
+
+            long case1 =  curN * 10L + 1, case2 = curN * 2L;
+            if (case1 <= target) Q.offer(new int[]{(int)case1, depth + 1});
+            if (case2 <= target) Q.offer(new int[]{(int)case2, depth + 1});
         }
     }
 
@@ -35,6 +29,6 @@ public class Main {
         int a = Integer.parseInt(st.nextToken());
         target = Integer.parseInt(st.nextToken());
         bfs(a);
-        System.out.println(!visited[target] ? -1 : result);
+        System.out.println(result);
     }
 }

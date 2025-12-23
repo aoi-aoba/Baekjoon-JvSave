@@ -7,7 +7,7 @@ public class Main {
     public static int INF = 1_000_000_009;
 
     public static int n, m;
-    public static int[] nodeArr, nodeNumArr;
+    public static int[] nodeArr;
     public static int[][] graphMatrix;
     public static List<List<Integer>> graph = new ArrayList<>();
 
@@ -15,24 +15,17 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         m = Integer.parseInt(br.readLine());
-        nodeNumArr = new int[n + 1];
         graphMatrix = new int[n + 1][n + 1];
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= n; j++) {
-                if (i == j) graphMatrix[i][j] = 0;
-                else graphMatrix[i][j] = INF;
-            }
-        }
+        for (int i = 0; i <= n; i++)
+            for (int j = 0; j <= n; j++)
+                graphMatrix[i][j] = (i == j) ? 0 : INF;
 
         for (int i = 0; i <= n; i++) graph.add(new ArrayList<>());
         for (int i = 0; i < m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken()), b = Integer.parseInt(st.nextToken());
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            graph.get(a).add(b); graph.get(b).add(a);
             graphMatrix[a][b] = graphMatrix[b][a] = 1;
-            nodeNumArr[a]++;
-            nodeNumArr[b]++;
         }
     }
 
@@ -78,9 +71,8 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             int group = nodeArr[i], val = 0;
             for (int j = 1; j <= n; j++) {
-                if (graphMatrix[i][j] != INF && graphMatrix[i][j] != 0)
-                    if (nodeArr[j] == group)
-                        val = Math.max(val, graphMatrix[i][j]);
+                if (nodeArr[j] == group && graphMatrix[i][j] != INF)
+                    val = Math.max(val, graphMatrix[i][j]);
             }
             if (reps[group] == -1 || repMax[group] > val) {
                 reps[group] = i;

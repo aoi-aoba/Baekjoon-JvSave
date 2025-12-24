@@ -5,6 +5,7 @@ import java.io.*;
 
 public class Main {
     public static boolean[] isPrime = new boolean[10000];
+
     public static void sieve() {
         Arrays.fill(isPrime, true);
         isPrime[0] = isPrime[1] = false;
@@ -14,6 +15,7 @@ public class Main {
                 isPrime[j] = false;
         }
     }
+
     public static int bfs(int start, int end) {
         if (start == end) return 0;
 
@@ -26,27 +28,38 @@ public class Main {
 
         while (!Q.isEmpty()) {
             int cur = Q.poll();
-            if (step[end] > 0) return step[end];
+            if (cur == end) return step[cur];
+
+            int[] d = {
+                    cur / 1000,
+                    (cur / 100) % 10,
+                    (cur / 10) % 10,
+                    cur % 10
+            };
 
             for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 10; j++) {
+                int original = d[i];
+                for (int j = 0; j <= 9; j++) {
                     if (i == 0 && j == 0) continue;
+                    if (j == original) continue;
 
-                    StringBuilder sb = new StringBuilder(String.format("%04d", cur));
-                    sb.setCharAt(i, (char)(j + '0'));
+                    d[i] = j;
+                    int next =
+                            d[0] * 1000 + d[1] * 100 + d[2] * 10 + d[3];
 
-                    int target = Integer.parseInt(sb.toString());
-                    if (isPrime[target] && !visited[target]) {
-                        visited[target] = true;
-                        step[target] = step[cur] + 1;
-                        Q.offer(target);
+                    if (isPrime[next] && !visited[next]) {
+                        visited[next] = true;
+                        step[next] = step[cur] + 1;
+                        Q.offer(next);
                     }
                 }
+                d[i] = original;
             }
         }
 
         return -1;
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         sieve();
